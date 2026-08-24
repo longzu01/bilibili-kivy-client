@@ -1,61 +1,50 @@
-# Bilibili Kivy Client
+# 小B - Bilibili 专属浏览器
 
-轻量级 Bilibili 第三方客户端，基于 Python + Kivy 开发。
+轻量级 Bilibili 专属浏览器，基于 Python + Playwright 开发。
 
-## 功能特性
+## 核心特性
 
-- 📺 **热门视频浏览** - 展示 Bilibili 热门视频列表
-- 🔍 **视频搜索** - 支持关键词搜索（需登录）
-- 🔐 **Cookie 登录** - 支持通过 Cookie 登录解锁完整功能
-- 🖼️ **视频封面** - 显示视频缩略图
-- 📱 **响应式界面** - 适配不同窗口大小
-- ⚡ **轻量快速** - 异步加载，不阻塞界面
+- 🚫 **无地址栏** - 纯净浏览体验，只有视频内容
+- 🔒 **只能访问 Bilibili** - 自动拦截非 Bilibili 域名跳转
+- 🌐 **独立 Chromium** - 使用 Playwright 自带的 Chromium 151，不调用系统浏览器
+- ⚡ **轻量快速** - 应用模式启动，无多余 UI 元素
+- 🎯 **专注视频** - 专为 Bilibili 优化的浏览体验
 
 ## 安装依赖
 
 ```bash
-pip install kivy requests
+pip install playwright
+playwright install chromium
 ```
 
 ## 运行程序
 
 ```bash
-python bilibili_client.py
+python xiaob_playwright_simple.py
 ```
 
 ## 使用说明
 
 ### 首次启动
 
-1. 程序启动后会弹出登录对话框
-2. 可以选择"跳过登录"使用基础功能
-3. 或输入 Cookie 解锁完整功能（搜索等）
-
-### 获取 Cookie
-
-1. 浏览器访问 [bilibili.com](https://www.bilibili.com) 并登录
-2. 按 `F12` 打开开发者工具
-3. 切换到 **Network** 标签页
-4. 刷新页面
-5. 点击任意请求，在 **Headers** 中找到 **Cookie**
-6. 复制完整的 Cookie 字符串
+1. 确保已安装 Python 3.8+
+2. 安装依赖：`pip install playwright && playwright install chromium`
+3. 运行程序：`python xiaob_playwright_simple.py`
+4. 程序会自动打开 Bilibili 首页，无地址栏，只能访问 Bilibili
 
 ### 主要功能
 
-- **首页**: 自动加载热门视频
-- **搜索**: 在顶部搜索框输入关键词，按回车或点击搜索按钮
-- **视频卡片**: 显示封面、标题、UP主和播放量
+- **纯净界面**: 无地址栏、无工具栏，只有窗口控制按钮
+- **域名限制**: 如果检测到跳转到非 bilibili.com 域名，会自动返回主页
+- **视频播放**: 支持正常点击视频、播放、弹幕等功能
+- **退出方式**: 关闭窗口或按 Alt+F4
 
 ## 技术栈
 
 - **Python 3.8+**
-- **Kivy 2.x** - 跨平台 GUI 框架
-- **Requests** - HTTP 客户端
+- **Playwright** - 现代浏览器自动化框架
+- **Chromium 151** - 最新浏览器引擎
 
-## 参考项目
-
-灵感来源于 [哔哩终端 (BiliClient)](https://github.com/huanli233/BiliClient)
-
-## License
+## 许可证
 
 MIT
