@@ -8,6 +8,7 @@ Bilibili Kivy Client - 轻量级 Bilibili 客户端
 import sys
 import re
 import threading
+import webbrowser
 from urllib.parse import quote
 
 from kivy.app import App
@@ -86,12 +87,27 @@ class VideoCard(BoxLayout):
         
         self.add_widget(top_layout)
         
+        # 保存视频 URL
+        bvid = video_data.get('bvid', '')
+        self.video_url = f'https://www.bilibili.com/video/{bvid}' if bvid else ''
+        
         # 底部分隔线
         separator = Widget(size_hint_y=None, height=2)
         with separator.canvas:
             Color(0.75, 0.8, 0.9, 0.5)
             Rectangle(pos=separator.pos, size=(Window.width, 2))
         self.add_widget(separator)
+        
+        # 绑定点击事件
+        self.bind(on_touch_down=self.on_click)
+    
+    def on_click(self, instance, touch):
+        """处理点击事件，打开浏览器播放视频"""
+        if self.collide_point(*touch.pos) and self.video_url:
+            print(f"Opening video: {self.video_url}", file=sys.stderr)
+            webbrowser.open(self.video_url)
+            return True
+        return False
     
     def _format_number(self, num):
         """格式化数字（万/亿）"""
