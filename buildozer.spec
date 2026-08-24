@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = 哔哩哔哩客户端
+title = 小B
 
 # (str) Package name
-package.name = bilibili_client
+package.name = xiaob.bilibili
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.bilibili
+package.domain = com.xiaob
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -20,19 +20,19 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,requests,beautifulsoup4,lxml
+requirements = python3,kivy
 
 # (str) Supported orientation (landscape, sensorLandscape, portrait or all)
 orientation = portrait
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+fullscreen = 1
 
 # (list) Permissions
-android.permissions = INTERNET
+android.permissions = INTERNET,ACCESS_NETWORK_STATE
 
 # (int) Target Android API, should be as high as possible.
-android.api = 33
+android.api = 34
 
 # (int) Minimum API your APK will support.
 android.minapi = 21
