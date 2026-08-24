@@ -8,7 +8,7 @@ Bilibili Kivy Client - 轻量级 Bilibili 客户端
 import sys
 import re
 import threading
-import webview
+import webbrowser
 from urllib.parse import quote
 
 from kivy.app import App
@@ -102,16 +102,10 @@ class VideoCard(BoxLayout):
         self.bind(on_touch_down=self.on_click)
     
     def on_click(self, instance, touch):
-        """处理点击事件，用 WebView 播放视频"""
+        """处理点击事件，打开浏览器播放视频"""
         if self.collide_point(*touch.pos) and self.video_url:
-            print(f"Opening video in WebView: {self.video_url}", file=sys.stderr)
-            # 在新线程中打开 WebView，避免阻塞主线程
-            import threading
-            def open_webview():
-                webview.create_window('Bilibili Video', self.video_url, width=1200, height=800)
-                webview.start()
-            thread = threading.Thread(target=open_webview, daemon=True)
-            thread.start()
+            print(f"Opening video: {self.video_url}", file=sys.stderr)
+            webbrowser.open(self.video_url)
             return True
         return False
     
