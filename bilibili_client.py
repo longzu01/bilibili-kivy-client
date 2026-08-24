@@ -265,17 +265,26 @@ class BilibiliClientApp(App):
         try:
             url = 'https://api.bilibili.com/x/web-interface/popular'
             response = self.session.get(url, timeout=10)
+            
+            # 检查响应状态码
+            if response.status_code == 412:
+                Clock.schedule_once(lambda dt: self.show_error('需要登录才能查看热门视频\n请在启动时输入 Cookie'), 0)
+                return
+            
             data = response.json()
             
             if data.get('code') == 0:
                 videos = data['data']['list'][:15]
                 Clock.schedule_once(lambda dt: self.display_videos(videos), 0)
                 self.status_label.text = f'已加载 {len(videos)} 个热门视频'
+            elif data.get('code') == -412:
+                Clock.schedule_once(lambda dt: self.show_error('需要登录才能查看热门视频\n请在启动时输入 Cookie'), 0)
             else:
                 error_msg = data.get('message', '加载失败')
                 self.show_error(f'加载失败: {error_msg}')
         except Exception as e:
-            self.show_error(f'网络错误: {str(e)}')
+            error_msg = f'网络错误: {str(e)}'
+            Clock.schedule_once(lambda dt: self.show_error(error_msg), 0)
     
     def do_search(self, instance):
         """执行搜索"""
@@ -333,7 +342,8 @@ class BilibiliClientApp(App):
                 Clock.schedule_once(lambda dt: self.show_error(f'搜索失败: {error_msg}'), 0)
                 
         except Exception as e:
-            Clock.schedule_once(lambda dt: self.show_error(f'搜索错误: {str(e)}'), 0)
+            error_msg = f'搜索错误: {str(e)}'
+            Clock.schedule_once(lambda dt: self.show_error(error_msg), 0)
     
     def display_videos(self, videos):
         """显示视频列表"""
